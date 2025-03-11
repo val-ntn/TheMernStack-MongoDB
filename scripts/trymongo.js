@@ -36,30 +36,32 @@ function testWithCallbacks(callback) {
     });
   });
 }
+
+async function testWithAsync() {
+  console.log("\n-- testWithAsync --");
+  const client = new MongoClient(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+  try {
+    await client.connect();
+    const db = client.db();
+    console.log("Connected to MongoDB");
+    const collection = db.collection("employees");
+    const employee = { id: 2, name: "B.Async", age: 16 };
+    const result = await collection.insertOne(employee);
+    console.log("Result of insert:\n", result.insertedId);
+    const docs = await collection.find({ _id: result.insertedId }).toArray();
+    console.log("Result of find:\n", docs);
+  } catch (err) {
+    console.log(err);
+  } finally {
+    client.close();
+  }
+}
 testWithCallbacks(function (err) {
   if (err) {
     console.log(err);
   }
+  testWithAsync();
 });
-/*PS C:\Users\valw\Desktop\IBAW\TheMernStack\my-issue-tracker> node .\scripts\trymongo.js
-
---- testWithCallbacks ---
-MongoServerSelectionError: connect ECONNREFUSED ::1:27017
-    at Timeout._onTimeout (C:\Users\valw\Desktop\IBAW\TheMernStack\my-issue-tracker\node_modules\mongodb\lib\core\sdam\topology.js:438:30)
-    at listOnTimeout (node:internal/timers:614:17)
-    at process.processTimers (node:internal/timers:549:7) {
-  reason: TopologyDescription {
-    type: 'Single',
-    setName: null,
-    maxSetVersion: null,
-    maxElectionId: null,
-    servers: Map(1) { 'localhost:27017' => [ServerDescription] },
-    stale: false,
-    compatible: true,
-    compatibilityError: null,
-    logicalSessionTimeoutMinutes: null,
-    heartbeatFrequencyMS: 10000,
-    localThresholdMS: 15,
-    commonWireVersion: null
-  }
-} */
