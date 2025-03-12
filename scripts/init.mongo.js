@@ -1,4 +1,4 @@
-db.issues.remove({});
+db.issues.deleteMany({});
 
 const issuesDB = [
   {
@@ -22,8 +22,11 @@ const issuesDB = [
 ];
 
 db.issues.insertMany(issuesDB);
-const count = db.issues.count();
+const count = db.issues.countDocuments();
 print("Inserted", count, "issues");
+
+db.counters.deleteOne({ _id: "issues" });
+db.counters.insertOne({ _id: "issues", current: count });
 
 db.issues.createIndex({ id: 1 }, { unique: true });
 db.issues.createIndex({ status: 1 });
