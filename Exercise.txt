@@ -1,0 +1,33 @@
+MongoDB Exercises:
+
+
+Exercise: MongoDB basics:
+
+1.	.help() listet Hilfe un methoden zum Cursor auf.
+
+
+Exercise: MongoDB CRUD operations:
+
+1.	db.employees.find({"name.middle": {$exists: true}})
+
+2.	Nein die filter spezifikation ist nicht valides JSON, sondern nur JSON ähnlich. Zum Beispiel braucht es keine Quotes um den Key. Und es gibt $ Operatoren, dat Object etc, die in JSON nicht zulässig sind.
+
+3.	db.employees.updateOne( { "name.first": "Joe" }, { $unset: { "name.middle": "" } } )
+
+4.	Indes creation bewirkt, dass das Feld per Index in einem balance tree schneller gesucht werden kann. Die 1 bedeutet, dass in aufsteigender Reihenfolge der Indexe. Ich glaube es gab noch unique auf true zu setzen. Damit ist jeder indexierte wert einzigartig. 
+
+
+Exercise Schema Initialization:
+
+1.	Mongo Shell script ist schnell und praktisch, speziell für einfache Aufgaben wie: Schema Initialisierung oder direktes testen. Das script kann direkt in der Mongo Shell aufgerufen werden. Es ist der direkteste weg zur Interaktion mit MongoDB. 
+
+Nodejs MongoDB driver ist komplexer und verfügt über Logik und Features wie asynchrone Programmierung und error handling etc. Es ist besser skalierbar. Wegen dem ist es besser für Applikationen geeignet.
+
+2.	Bei Indexierung kommt es darauf an, ob das Feld oft abgesucht wird (quering). Dann beschleunigt eine Indexierung, die suche. Aber wenn oft in ein Feld geschrieben wird, kann eine Indexierung das Schreiben verlangsamen.
+
+
+Exercise: Reading from MongoDB:
+
+1.	Die Verbindung ist unterbrochen. Bei einem neuen Start muss die globale variable zuerst wieder initialisiert werden.
+
+2.	Bei einem Unterbruch war die Webseite auf dem Browser unter localhost:3000/issues nicht erreichbar. Bei wieder starten des Servers hat sich die Seite automatisch wieder verbunden.
